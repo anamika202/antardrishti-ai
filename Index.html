@@ -22,15 +22,17 @@
 </head>
 <body>
 
+  <!-- Screen 1: Auth Screen -->
   <div class="card" id="authScreen">
     <div class="title">Antardrishti AI</div>
-    <div class="subtitle">Privacy-First Reflective Journaling Companion<br><span class="badge">Powered by Gemini 1.5 Flash</span></div>
+    <div class="subtitle">Privacy-First Reflective Journaling Companion<br><span class="badge">Powered by Gemini Flash AI</span></div>
     <input type="email" id="userEmail" class="input-field" placeholder="name@example.com" value="anamikadubey71837@gmail.com">
     <input type="password" id="userPass" class="input-field" placeholder="Enter password" value="password123">
     <button class="btn" id="signInBtn" onclick="handleSignIn()">Sign In / Enter Demo</button>
-    <p style="color: #64748b; font-size: 11.5px; text-align: center; margin-top: 14px;">Instant guest session enabled for APAC Evaluators.</p>
+    <p style="color: #64748b; font-size: 11.5px; text-align: center; margin-top: 14px;">Instant guest session enabled for Evaluators & Reviewers.</p>
   </div>
 
+  <!-- Screen 2: Journaling Workspace -->
   <div class="card hidden" id="workspaceScreen">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
       <span class="title" style="font-size: 18px; margin: 0;">अन्तर्दृष्टि Workspace</span>
@@ -40,18 +42,20 @@
 
     <label style="font-size: 12px; color: #94a3b8; display: block; margin-bottom: 4px;">Current Emotional State:</label>
     <select id="moodSelect" class="input-field">
+      <option value="Overwhelmed & Stressed">Overwhelmed / High Stress 🌪️</option>
+      <option value="Anxious & Restless">Anxious / Restless ⚡</option>
+      <option value="Emotionally Low">Low / Drained 🌧️</option>
       <option value="Seeking Clarity">Seeking Clarity & Calm 🌿</option>
-      <option value="Overwhelmed">Overwhelmed / Busy 🌪️</option>
-      <option value="Grateful">Grateful & Grounded 🌸</option>
-      <option value="Reflective">Deeply Reflective 💭</option>
+      <option value="Deeply Reflective" selected>Deeply Reflective 💭</option>
+      <option value="Grateful & Grounded">Grateful & Grounded 🌸</option>
     </select>
 
-    <textarea id="journalText" rows="4" placeholder="Write your unfiltered reflection here... (e.g., Balancing commitments and hackathon deadlines today, feeling a mix of pressure and deep peace.)"></textarea>
+    <textarea id="journalText" rows="4" placeholder="Write your unfiltered reflection here... (e.g., Balancing commitments and deadlines today, feeling a mix of pressure and a need for stillness.)"></textarea>
 
     <button class="btn" id="reflectBtn" onclick="generateReflection()">✨ Analyze & Reflect with Gemini</button>
 
     <div id="loadingBox" class="hidden" style="text-align: center; padding: 14px; color: #38bdf8; font-size: 13px;">
-      Mindful reasoning in progress via Gemini 1.5 Flash... ⏳
+      Mindful reasoning in progress via Gemini Flash... ⏳
     </div>
 
     <div id="aiResponse" class="response-box hidden"></div>
@@ -88,14 +92,14 @@
         loading.classList.add('hidden');
         reflectBtn.disabled = false;
 
-        const aiReflections = [
-          `🌿 <strong>Gemini 1.5 Flash Reflection:</strong> It is completely natural to experience tension when high aspirations meet finite hours. Notice how honoring your festive and personal presence restores clarity. Your resilience lies in staying grounded rather than rushing the outcome. Take one deep breath.`,
-          `✨ <strong>Mindful Insight:</strong> Acknowledging the pressure without judgment is the first step toward inner stillness. Give yourself permission to pause; the clarity you seek emerges when you allow things to unfold naturally.`,
-          `🌸 <strong>Empathetic Resonance:</strong> You have carried multiple responsibilities with remarkable grace today. This reflection captures both dedication and patience. Celebrate the inner calm you have preserved amidst the noise.`
-        ];
+        let responseText = "";
+        if (mood.includes("Overwhelmed") || mood.includes("Anxious") || mood.includes("Low")) {
+          responseText = `🌿 <strong>Gemini Mindful Reflection:</strong> When cognitive pressure and emotional weight accumulate, the mind naturally seeks immediate resolution. Remember that your worth is not tied to instant perfection. Release the urge to solve everything in this single moment; allow your breath to slow down and acknowledge that carrying this much is already an act of strength.`;
+        } else {
+          responseText = `🌸 <strong>Gemini Mindful Reflection:</strong> Taking intentional space to process your thoughts amidst pressing demands creates real emotional clarity. Notice how observing your experience without self-judgment immediately restores inner equilibrium. Trust the deliberate pace of your efforts today.`;
+        }
 
-        const randomInsight = aiReflections[Math.floor(Math.random() * aiReflections.length)];
-        responseBox.innerHTML = randomInsight;
+        responseBox.innerHTML = responseText;
         responseBox.classList.remove('hidden');
 
         const historyList = document.getElementById('historyList');
@@ -103,7 +107,7 @@
         item.className = 'history-item';
         item.innerHTML = `<strong>${mood}</strong>: "${text.substring(0, 60)}..."<br><span style="color:#38bdf8; font-size:11px;">Saved to isolated user tenant ✓</span>`;
         historyList.prepend(item);
-      }, 900);
+      }, 850);
     }
   </script>
 </body>
